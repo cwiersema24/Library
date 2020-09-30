@@ -14,6 +14,9 @@ namespace LibraryApi.Profiles
         {
             CreateMap<Book, GetBooksResponseItem>();
             CreateMap<Book, GetBookDetailsResponse>();
+            CreateMap<PostBookCreate, Book>()
+                .ForMember(dest => dest.DateAdded, x => x.MapFrom((_) => DateTime.Now))
+                .ForMember(dest => dest.IsInInventory, x => x.MapFrom((_) => true));
         }
     }
 }

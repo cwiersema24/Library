@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,15 @@ using System.Threading.Tasks;
 namespace LibraryApi.Controllers
 {
     public class DemoController : ControllerBase
+        
     {
+        IConfiguration _config;
+
+        public DemoController(IConfiguration config)
+        {
+            _config = config;
+        }
+
         [HttpGet("employees/{employeeId:int}", Name ="employees#get")]
         public ActionResult LookupEmployee([FromRoute] int employeeId)
         {
@@ -56,6 +65,12 @@ namespace LibraryApi.Controllers
                 StartingSalary = employeeToHire.StartingSalary
             };
             return CreatedAtRoute("employees#get", new { employeeId = response.Id }, response);
+        }
+        [HttpGet("message")]
+        public ActionResult GetMessage()
+        {
+            var msg = _config.GetValue<String>("message");
+            return Ok($"The message is {msg}");
         }
     }
 

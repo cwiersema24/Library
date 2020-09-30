@@ -18,5 +18,10 @@ namespace LibraryApi.Domain
             modelBuilder.Entity<Book>().Property(p => p.Title).HasMaxLength(200);
             modelBuilder.Entity<Book>().Property(p => p.Author).HasMaxLength(200);
         }
+
+        public virtual IQueryable<Book> BooksInInventory()
+        {
+            return Books.Where(b => b.IsInInventory == true);
+        }
     }
 }
